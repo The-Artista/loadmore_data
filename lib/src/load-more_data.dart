@@ -8,10 +8,12 @@ class Hola<T> extends StatefulWidget with InfinityScrollMixin {
     super.key,
     required this.oninit,
     required this.builder,
+    required this.onLoad,
     this.initPage = 1,
   });
 
   final OnInit<T> oninit;
+  final OnLoad<T> onLoad;
   final int? initPage;
   final ItemBuilder<T> builder;
 
@@ -20,35 +22,76 @@ class Hola<T> extends StatefulWidget with InfinityScrollMixin {
 }
 
 class _HolaState<T> extends State<Hola<T>> {
-  Iterable<T> hola = [];
+  final sss = ScrollController();
+  bool isLoading = false;
+  late ValueNotifier<Iterable<T>> data = ValueNotifier([]);
+  int index = 0;
+  bool isInitData = false;
+  bool isNoData = false;
+
+  Future<void> initData() async {
+    data.value = await widget.oninit();
+    setState(() {
+      isInitData = true;
+    });
+  }
 
   @override
   initState() {
-    widget.setupScrollController(context, () async {
-      // print("object");
+    initData();
+    index = widget.initPage ?? 0;
+    sss.addListener(() async {
+      if (isNoData == false) {
+        if(sss.position.pixels == sss.position.maxScrollExtent){
+          print("end of the list");
+          setState(() {
+            isLoading = true;
+          });
+          final newData = await widget.onLoad(index++);
+          if(newData == null || newData.isEmpty){
+            setState(() {
+              isNoData = true;
+            });
+          }else{
+            setState(() {
+              index = index++;
+            });
+            data.value = [...data.value, ...newData];
+          }
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      hola = widget.oninit();
-    });
-    return ListView.builder(
-      controller: widget.scrollController,
-      itemCount: hola.length,
-      itemBuilder: (context, index) {
-        if (hola.length - 3 == index) {
-          final gg = [];
-          List.generate(120, (index) => gg.add(index));
-          final dfsd =hola.toList().addAll(gg as Iterable<T>);
-          hola = dfsd as Iterable<T>;
-        }
-        return widget.builder(context, hola.elementAt(index));
-      },
+    return ListView(
+      controller: sss,
+      children: [
+        if (isInitData == false) Text("init data"),
+        ValueListenableBuilder(
+          valueListenable: data,
+          builder: (context, value, child) {
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: value.length,
+              itemBuilder: (context, index) {
+                return widget.builder(context, value.elementAt(index));
+              },
+            );
+          },
+        ),
+        if (isLoading) Text("loading"),
+        if (isNoData) Text("no more Data")
+      ],
     );
   }
 }
 
-typedef Iterable<T> OnInit<T>();
+typedef FutureOr<Iterable<T>> OnInit<T>();
+typedef FutureOr<Iterable<T>?> OnLoad<T>(int index);
 typedef Widget ItemBuilder<T>(BuildContext context, T itemData);

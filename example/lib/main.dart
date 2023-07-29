@@ -88,13 +88,30 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Hola(
-        oninit: () {
-          final gg = [];
-          List.generate(120, (index) => gg.add(index));
-          return gg;
+        oninit: () async {
+          await Future<void>.delayed(const Duration(seconds: 2));
+          return List.generate(
+              40,
+              (index) => TestModel(
+                  age: 12,
+                  hh: index == 39 ? 'dddddddddddddddddddddddddddddddddddddddddddddddddddddd$index' : 'dd$index'));
+        },
+        onLoad: (index) async {
+          await Future<void>.delayed(const Duration(seconds: 2));
+          print(index);
+          if (index >= 5) {
+            final List<TestModel> gg = [];
+            return gg;
+          }
+          print('callinge new data with $index');
+          return List.generate(
+              40,
+              (index) => TestModel(
+                  age: 12,
+                  hh: index == 39 ? 'dddddddddddddddddddddddddddddddddddddddddddddddddddddd$index' : 'dd$index'));
         },
         builder: (context, itemData) {
-          return Text(itemData.toString());
+          return Text(itemData.hh);
         },
       ),
       floatingActionButton: FloatingActionButton(
