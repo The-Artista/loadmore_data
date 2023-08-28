@@ -4,7 +4,8 @@ loadmore_data is a flutter package that can handel infinity scroll pagination
 
 ## Demo
 
-![loadmore_data demo](https://www.ishaf.info/load_more.gif "loadmore_data demo")
+![loadmore_data](https://www.ishaf.info/load_more.gif "loadmore_data demo")
+
 
 ## Installation 💻
 
