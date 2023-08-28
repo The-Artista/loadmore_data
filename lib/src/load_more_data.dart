@@ -54,7 +54,7 @@ class LoadMoreListData<T> extends StatefulWidget {
   final Widget? bottomWidget;
 
   /// [initPage] will take a [int] value representing the initial
-  /// circle of requests.
+  /// circle of requests. by default its is  `1`
   final int? initPage;
 
   /// padding for [LoadMoreListData] widget
