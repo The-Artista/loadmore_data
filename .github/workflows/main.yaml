@@ -51,31 +51,14 @@ jobs:
     - name: 🕵️ Analyze
       run: flutter analyze lib
 
+    - name: 🔐 Setup Pub Credentials
+      run: |
+        mkdir -p $HOME/.config/dart
+        cat <<EOF > $HOME/.config/dart/pub-credentials.json
+        ${{secrets.PUB_CREDENTIALS}}
 
-  publish:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 📚 Git Checkout
-        uses: actions/checkout@v3
+    - name: 🌵 Dry Run
+      run: flutter pub publish --dry-run
 
-      - name: 🐦 Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ""
-          channel: "stable"
-          cache: true
-
-      - name: 📦 Install Dependencies
-        run: flutter pub get
-
-      - name: 🔐 Setup Pub Credentials
-        run: |
-          mkdir -p $HOME/.config/dart
-          cat <<EOF > $HOME/.config/dart/pub-credentials.json
-          ${{secrets.PUB_CREDENTIALS}}
-
-      - name: 🌵 Dry Run
-        run: flutter pub publish --dry-run
-
-      - name: 📢 Publish
-        run: flutter pub publish -f
+    - name: 📢 Publish
+      run: flutter pub publish -f
