@@ -1,10 +1,14 @@
 # Loadmore Data
+[![Pub](https://img.shields.io/pub/v/loadmore_data.svg)](https://pub.dartlang.org/packages/loadmore_data)
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/license-MIT-orange.svg)](https://github.com/ionicfirebaseapp/getwidget/blob/master/LICENSE) 
 
 loadmore_data is a flutter package that can handel infinity scroll pagination
 
 ## Demo
 
-![loadmore_data demo](https://www.ishaf.info/load_more.gif "loadmore_data demo")
+![loadmore_data](https://www.ishaf.info/load_more.gif "loadmore_data demo")
+
 
 ## Installation 💻
 
