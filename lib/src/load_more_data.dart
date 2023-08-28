@@ -95,7 +95,8 @@ class _LoadMoreListDataState<T> extends State<LoadMoreListData<T>> {
     });
     scrollController.addListener(() async {
       if (isNoData == false) {
-        if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+        if (scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent) {
           setState(() {
             isLoading = true;
           });
