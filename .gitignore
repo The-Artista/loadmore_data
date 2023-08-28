@@ -41,3 +41,6 @@ app.*.map.json
 
 # Test related
 coverage
+
+# fvm
+.fvm/flutter_sdk
