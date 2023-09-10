@@ -27,6 +27,36 @@ Install it:
 ```sh
 flutter packages get
 ```
+
+## Example
+
+```dart
+LoadMoreListData(
+        onInit: () async {
+          // call api for initial data and return list of data
+          final data = await initCharacters();
+          return data.results!;
+        },
+        onInitialLoading: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        onLoadMoreLoading: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        onLoad: (index) async {
+
+          // call api for more data and return list of data
+          final data = await nextCharacters(index);
+          return data.results!;
+        },
+        itemPadding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
+        topWidget: const Text("Pagination Start From Here"),
+        builder: (context, itemData) {
+          // return a widget that represent a single item
+        },
+      ),
+```
 ## Parameters
 | Parameter | Definition                                                                                                                                                                                                                                |
 |-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
