@@ -127,6 +127,18 @@ class _LoadMoreListDataState<T> extends State<LoadMoreListData<T>> {
   }
 
   @override
+  void didUpdateWidget(covariant LoadMoreListData<T> oldWidget) {
+    if (oldWidget.onInit != widget.onInit) {
+      index = widget.initPage != null ? widget.initPage! + 1 : 2;
+      isInitData = false;
+      isNoData = false;
+      initData();
+      setState(() {});
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView(
       controller: scrollController,
